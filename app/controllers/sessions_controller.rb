@@ -1,3 +1,5 @@
+require 'bcrypt'
+
 class SessionsController < ApplicationController
   skip_before_action :authorize
 
@@ -18,4 +20,8 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to store_index_url, notice: "Logged out"
   end
+
+  rescue_from 'User::Error' do |exception|
+    redirect_to users_url, notice: exception.message
+  end  
 end
