@@ -8,6 +8,9 @@ Rails.application.routes.draw do
 
   get 'sessions/create'
   get 'sessions/destroy'
+
+  resources :support_requests, only: [ :index, :update ]
+
   scope '(:locale)' do
     resources :users
     resources :orders
