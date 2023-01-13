@@ -10,9 +10,13 @@
     "@rails/webpacker": "4.3.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "i18n-js": "^4.2.2",
+    "i18next": "^22.4.9",
+    "i18next-browser-languagedetector": "^7.0.1",
+    "i18next-http-backend": "^2.1.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-i18next": "^12.1.4",
     "trix": "^1.2.0",
     "turbolinks": "^5.2.0"
   },

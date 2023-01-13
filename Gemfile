@@ -54,3 +54,4 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "net-http"
 gem 'i18n-js'
+gem 'mail', '~> 2.7.0'
