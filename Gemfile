@@ -53,5 +53,5 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "net-http"
-gem 'i18n-js'
+gem 'i18n-js', '~> 3.0.0.rc'
 gem 'mail', '~> 2.7.0'
