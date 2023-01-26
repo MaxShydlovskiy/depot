@@ -175,6 +175,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     sqlite3 (1.5.4-x86_64-linux)
+    stripe (8.1.0)
     thor (1.2.1)
     thread_safe (0.3.6)
     tilt (2.0.11)
@@ -225,6 +226,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3 (~> 1.4)
+  stripe
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 3.3.0)
