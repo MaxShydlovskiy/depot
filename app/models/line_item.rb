@@ -5,5 +5,9 @@ class LineItem < ApplicationRecord
 
   def total_price
     product.price * quantity
-  end    
+  end
+
+  def total_price_in_cents
+    (total_price * 100).to_i
+  end
 end

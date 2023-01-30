@@ -13,6 +13,10 @@ class Product < ApplicationRecord
 
   validates :price, numericality: { greater_than_or_equal_to: 0.01 }
 
+  def price_in_cents
+    (price * 100).to_i
+  end
+
   private
 
     # ensure that there are no line items referencing this product
@@ -23,4 +27,4 @@ class Product < ApplicationRecord
       end
     end
 end
-  
+
