@@ -4,8 +4,20 @@ import NoPayType from './NoPayType';
 import CreditCardPayType from './CreditCardPayType';
 import CheckPayType from './CheckPayType';
 import PurchaseOrderPayType from './PurchaseOrderPayType';
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe('pk_test_51MUXrmLzcHKkPnpTf4OABSZ1zX9PipalZtRxc3fDJ5laxLuz8KZy3U8Co7AdmMgbL8dGC9RLeAIYfty5WgaOIRwc00Kv874RWY');
+
+const options = {
+  // passing the client secret obtained from the server
+  clientSecret: '{{CLIENT_SECRET}}',
+};
 
 class PayTypeSelector extends React.Component {
+
   constructor(props) {
     super(props);
     this.onPayTypeSelected = this.onPayTypeSelected.bind(this);
@@ -15,7 +27,7 @@ class PayTypeSelector extends React.Component {
   onPayTypeSelected(event) {
     this.setState({ selectedPayType: event.target.value });
   }
-    
+
   render() {
     let PayTypeCustomComponent = NoPayType;
     if (this.state.selectedPayType == "Credit card") {
@@ -31,31 +43,33 @@ class PayTypeSelector extends React.Component {
           <label htmlFor="order_pay_type">
             {I18n.t("orders.form.pay_type")}
           </label>
-      
+
           <select id="order_pay_type" onChange={this.onPayTypeSelected}
             name="order[pay_type]">
 
             <option value="">
               {I18n.t("orders.form.pay_prompt_html")}
-            </option>         
+            </option>
 
             <option value="Check">
               {I18n.t("orders.form.pay_types.check")}
-            </option>         
+            </option>
 
+            <Elements stripe={stripePromise}>
             <option value="Credit card">
               {I18n.t("orders.form.pay_types.credit_card")}
-            </option>         
+            </option>
+            </Elements>
 
             <option value="Purchase order">
               {I18n.t("orders.form.pay_types.purchase_order")}
-            </option>         
+            </option>
 
           </select>
         </div>
         <PayTypeCustomComponent />
       </div>
     );
-  }  
+  }
 }
 export default PayTypeSelector
