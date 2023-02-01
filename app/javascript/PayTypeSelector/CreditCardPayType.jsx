@@ -1,7 +1,7 @@
 import React from 'react'
 //import {CardElement} from 'react-stripe-elements';
 import {CardElement} from '@stripe/react-stripe-js';
-7
+
 class CreditCardPayType extends Compnent {
    handleChange = () => {
    }
