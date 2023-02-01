@@ -56,7 +56,7 @@ class PayTypeSelector extends React.Component {
               {I18n.t("orders.form.pay_types.check")}
             </option>
 
-            <Elements stripe={stripePromise}>
+            <Elements stripe={stripePromise} value="Credit Card">
             <CardElement />
             </Elements>
 

@@ -1,14 +1,17 @@
 import React from 'react'
 //import {CardElement} from 'react-stripe-elements';
 import {CardElement} from '@stripe/react-stripe-js';
-class CreditCardPayType extends React.Component {
+7
+class CreditCardPayType extends Compnent {
+   handleChange = () => {
+   }
   render() {
     return (
       <label>
         Card details
         <CardElement
           id="my-card"
-          onChange={handleChange}
+          onChange={this.handleChange}
           options={{
             iconStyle: 'solid',
             style: {
