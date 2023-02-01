@@ -21,6 +21,7 @@
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.1.4",
+    "react-stripe-elements": "^6.1.2",
     "stripe": "^11.8.0",
     "trix": "^1.2.0",
     "turbolinks": "^5.2.0"
