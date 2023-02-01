@@ -5,6 +5,7 @@ import CreditCardPayType from './CreditCardPayType';
 import CheckPayType from './CheckPayType';
 import PurchaseOrderPayType from './PurchaseOrderPayType';
 import {Elements} from '@stripe/react-stripe-js';
+import {CardElement} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
@@ -56,9 +57,7 @@ class PayTypeSelector extends React.Component {
             </option>
 
             <Elements stripe={stripePromise}>
-            <option value="Credit card">
-              {I18n.t("orders.form.pay_types.credit_card")}
-            </option>
+            <CardElement />
             </Elements>
 
             <option value="Purchase order">
