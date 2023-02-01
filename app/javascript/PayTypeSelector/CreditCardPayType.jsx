@@ -2,7 +2,7 @@ import React from 'react'
 //import {CardElement} from 'react-stripe-elements';
 import {CardElement} from '@stripe/react-stripe-js';
 
-class CreditCardPayType extends Compnent {
+class CreditCardPayType extends React.Component {
    handleChange = () => {
    }
   render() {
