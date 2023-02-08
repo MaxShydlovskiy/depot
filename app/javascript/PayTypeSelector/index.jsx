@@ -7,7 +7,23 @@ import CreditCardPayType from './CreditCardPayType';
 import CheckPayType from './CheckPayType';
 import PurchaseOrderPayType from './PurchaseOrderPayType';
 
+const myCustomHoc = (WrappedComponent) => {
+  return class extends React.Component {
+     render() {
+        return <WrappedComponent />
+     }
+  }
+}
 
+const withStripeProvider = (WrappedComponent) => (props) => {
+  const stripePromise = useMemo(() => loadStripe("pk_test_51MUXrmLzcHKkPnpTf4OABSZ1zX9PipalZtRxc3fDJ5laxLuz8KZy3U8Co7AdmMgbL8dGC9RLeAIYfty5WgaOIRwc00Kv874RWY"), []);
+
+  return (
+     <Elements stripe={stripePromise}>
+       <WrappedComponent />
+     </Elements>
+  );
+}
 const stripePromise = window.Stripe("pk_test_51MUXrmLzcHKkPnpTf4OABSZ1zX9PipalZtRxc3fDJ5laxLuz8KZy3U8Co7AdmMgbL8dGC9RLeAIYfty5WgaOIRwc00Kv874RWY")
 class PayTypeSelector extends React.Component {
 
