@@ -1,34 +1,16 @@
-import React from 'react'
-//import {CardElement} from 'react-stripe-elements';
-import {CardElement} from '@stripe/react-stripe-js';
+import React from 'react';
+import {Elements} from 'react-stripe-elements';
+
+import InjectedCheckoutForm from './CheckoutForm';
 
 class CreditCardPayType extends React.Component {
-   handleChange = () => {
-   }
   render() {
     return (
-      <label>
-        Card details
-        <CardElement
-          id="my-card"
-          onChange={this.handleChange}
-          options={{
-            iconStyle: 'solid',
-            style: {
-              base: {
-                iconColor: '#c4f0ff',
-                color: '#fff',
-                fontSize: '16px',
-              },
-              invalid: {
-                iconColor: '#FFC7EE',
-                color: '#FFC7EE',
-              },
-            },
-          }}
-        />;
-      </label>
+      <Elements>
+        <InjectedCheckoutForm />
+      </Elements>
     );
   }
 }
+
 export default CreditCardPayType

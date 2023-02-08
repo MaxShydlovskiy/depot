@@ -1,22 +1,14 @@
-import React from 'react'
+import React from 'react';
+import {Elements} from 'react-stripe-elements';
+
 
 import NoPayType from './NoPayType';
 import CreditCardPayType from './CreditCardPayType';
 import CheckPayType from './CheckPayType';
 import PurchaseOrderPayType from './PurchaseOrderPayType';
-import {Elements} from '@stripe/react-stripe-js';
-import {CardElement} from '@stripe/react-stripe-js';
-import {loadStripe} from '@stripe/stripe-js';
 
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
-const stripePromise = loadStripe('pk_test_51MUXrmLzcHKkPnpTf4OABSZ1zX9PipalZtRxc3fDJ5laxLuz8KZy3U8Co7AdmMgbL8dGC9RLeAIYfty5WgaOIRwc00Kv874RWY');
 
-const options = {
-  // passing the client secret obtained from the server
-  clientSecret: '{{CLIENT_SECRET}}',
-};
-
+const stripePromise = window.Stripe("pk_test_51MUXrmLzcHKkPnpTf4OABSZ1zX9PipalZtRxc3fDJ5laxLuz8KZy3U8Co7AdmMgbL8dGC9RLeAIYfty5WgaOIRwc00Kv874RWY")
 class PayTypeSelector extends React.Component {
 
   constructor(props) {
@@ -56,9 +48,11 @@ class PayTypeSelector extends React.Component {
               {I18n.t("orders.form.pay_types.check")}
             </option>
 
-            <Elements stripe={stripePromise} value="Credit Card">
-            <CardElement />
-            </Elements>
+            <option value="Credit Card">
+              <Elements>
+                <CreditCardPayType />
+              </Elements>
+            </option>
 
             <option value="Purchase order">
               {I18n.t("orders.form.pay_types.purchase_order")}
