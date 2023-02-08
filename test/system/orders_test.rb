@@ -18,7 +18,6 @@ class OrdersTest < ApplicationSystemTestCase
     fill_in "Address", with: @order.address
     fill_in "Email", with: @order.email
     fill_in "Name", with: @order.name
-    fill_in "Pay type", with: @order.pay_type
     click_on "Create Order"
 
     assert_text "Order was successfully created"
@@ -32,7 +31,6 @@ class OrdersTest < ApplicationSystemTestCase
     fill_in "Address", with: @order.address
     fill_in "Email", with: @order.email
     fill_in "Name", with: @order.name
-    fill_in "Pay type", with: @order.pay_type
     click_on "Update Order"
 
     assert_text "Order was successfully updated"
@@ -53,19 +51,19 @@ class OrdersTest < ApplicationSystemTestCase
     Order.delete_all
 
     visit store_index_url
-  
+
     click_on 'Add to Cart', match: :first
-  
+
     click_on 'Checkout'
-  
+
     fill_in 'order_name',    with: 'Dave Thomas'
     fill_in 'order_address', with: '123 Main Street'
     fill_in 'order_email',   with: 'dave@example.com'
-  
+
     assert_no_selector "#order_routing_number"
-  
+
     select 'Check', from: 'Pay type'
-  
+
     assert_selector "#order_routing_number"
 
     fill_in "Routing #",  with: "123456"
@@ -76,15 +74,14 @@ class OrdersTest < ApplicationSystemTestCase
     end
 
     orders = Order.all
-    assert_equal 1, orders.size   
+    assert_equal 1, orders.size
 
-    order = orders.first    
+    order = orders.first
 
     assert_equal "Dave Thomas",      order.name
     assert_equal "123 Main Street",  order.address
     assert_equal "dave@example.com", order.email
-    assert_equal "Check",            order.pay_type
-    assert_equal 1,                  order.line_items.size 
+    assert_equal 1,                  order.line_items.size
 
     mail = ActionMailer::Base.deliveries.last
     assert_equal ["dave@example.com"],                 mail.to
