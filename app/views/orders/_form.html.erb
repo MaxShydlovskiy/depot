@@ -1,3 +1,67 @@
+<style>
+    .StripeElement {
+        display: block;
+        margin: 10px 0 0px 0;
+        max-width: 500px;
+        padding: 10px 14px;
+        font-size: 1em;
+        box-shadow: rgba(50, 50, 93, 0.14902) 0px 1px 3px,
+        rgba(0, 0, 0, 0.0196078) 0px 1px 0px;
+        border: 0;
+        outline: 0;
+        border-radius: 4px;
+        background: white;
+    }
+    .StripeElement--focus {
+        box-shadow: rgba(50, 50, 93, 0.109804) 0px 4px 6px,
+        rgba(0, 0, 0, 0.0784314) 0px 1px 3px;
+        -webkit-transition: all 150ms ease;
+        transition: all 150ms ease;
+    }
+</style>
+<script type="text/javascript">
+  window.onload = async function () {
+    // setup Stripe.js
+    // Why and how - read https://stripe.com/docs/js/initializing
+    const stripe = Stripe('pk_test_51MUXrmLzcHKkPnpTf4OABSZ1zX9PipalZtRxc3fDJ5laxLuz8KZy3U8Co7AdmMgbL8dGC9RLeAIYfty5WgaOIRwc00Kv874RWY');
+    const rootNode = document.getElementById('root');
+    const form = document.createElement('form');
+    const cardWrapper = document.createElement('div');
+    // const button = document.createElement('button');
+    // button.innerText = 'Pay';
+    form.appendChild(cardWrapper);
+    // form.appendChild(button);
+    rootNode.appendChild(form);
+    // setup Stripe.js and Elements
+    const elements = stripe.elements();
+    // setup card Element
+    const cardElement = elements.create('card', {
+      theme: 'stripe',
+      style: {
+        base: {
+          iconColor: '#666EE8',
+          color: '#31325F',
+          lineHeight: '40px',
+          fontWeight: 600,
+          fontSize: '15px',
+          '::placeholder': {
+            fontSize: '14px'
+          }
+        }
+      }
+    });
+    cardElement.mount(cardWrapper);
+    // handle form submit
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = await stripe.createPaymentMethod({
+        type: 'card',
+        card: cardElement,
+      });
+      console.log('[PaymentMethod]', payload);
+    });
+  }
+</script>
 <%= form_with(model: order, local: true) do |form| %>
   <% if order.errors.any? %>
     <div id="error_explanation">
