@@ -1,0 +1,48 @@
+ <script src="https://js.stripe.com/v3/"></script>
+
+ <script type="text/javascript">
+  const form = document.getElementById('stripe-form');
+
+  // setup Stripe.js and Elements
+  const stripe = await loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+  const elements = stripe.elements();
+
+  // setup card Element
+  const cardElement = elements.create('card', {});
+  cardElement.mount(form);
+
+  // handle form submit
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement,
+    });
+    console.log('[PaymentMethod]', payload);
+  });
+</script>
+
+ <body>
+  <div class=".payment-errors"></div>
+
+  <form action="order_path" method="post" id="stripe-form">
+    <div class="formset">
+      <label>Card Number</label>
+      <input type="text" size="20" autocomplete="off" class="credit-number" />
+    </div>
+
+    <div class="formset">
+      <label>Security Code/CVC</label>
+      <input type="text" size="4" autocomplete="off" class="credit-scurity" />
+    </div>
+
+    <div class="formset">
+      <label>Expiration (MM/YYYY)</label>
+      <input type="text" size="2" class="card-expiry-month"/>
+      <span> / </span>
+      <input type="text" size="4" class="card-expiry-year"/>
+    </div>
+
+    <button type="submit" class="submit">Submit Payment</button>
+  </form>
+<body>
