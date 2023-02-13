@@ -60,6 +60,16 @@
       });
       console.log('[PaymentMethod]', payload);
     });
+    const response = await fetch("/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: parseInt('1000'),
+          currency: "usd"
+        }),
+      });
+
+      console.log("response: ", response);
   }
 </script>
 <%= form_with(model: order, local: true) do |form| %>
