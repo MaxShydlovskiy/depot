@@ -60,7 +60,7 @@
       });
       console.log('[PaymentMethod]', payload);
     });
-    const response = await fetch("/orders", {
+    const response = await fetch("/payment_intents", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
