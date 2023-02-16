@@ -56,3 +56,4 @@ gem "net-http"
 gem 'i18n-js', '~> 3.0.0.rc'
 gem 'mail', '~> 2.7.0'
 gem 'stripe'
+gem 'pry', '~> 0.13.1'
