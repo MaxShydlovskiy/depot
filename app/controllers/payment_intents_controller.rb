@@ -9,6 +9,6 @@ class PaymentIntentsController < ApplicationController
       currency: params[:currency],
       payment_method_types: ['card'],
     })
-    puts payment_intent
+    payment_intent
   end
 end

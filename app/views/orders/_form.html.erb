@@ -24,14 +24,8 @@
     // setup Stripe.js
     // Why and how - read https://stripe.com/docs/js/initializing
     const stripe = Stripe('pk_test_51MUXrmLzcHKkPnpTf4OABSZ1zX9PipalZtRxc3fDJ5laxLuz8KZy3U8Co7AdmMgbL8dGC9RLeAIYfty5WgaOIRwc00Kv874RWY');
-    const rootNode = document.getElementById('root');
-    const form = document.createElement('form');
-    const cardWrapper = document.createElement('div');
-    // const button = document.createElement('button');
-    // button.innerText = 'Pay';
-    form.appendChild(cardWrapper);
-    // form.appendChild(button);
-    rootNode.appendChild(form);
+    const cardWrapper = document.getElementById('root');
+    const form = document.getElementById('payment-form');
     // setup Stripe.js and Elements
     const elements = stripe.elements();
     // setup card Element
@@ -54,56 +48,58 @@
     // handle form submit
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const payload = await stripe.createPaymentMethod({
+      e.stopImmediatePropagation();
+
+      const formData = new FormData(form);
+      const inputData = Object.fromEntries(formData);
+
+      const paymentMethod = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
       });
-      console.log('[PaymentMethod]', payload);
-    });
-    const response = await fetch("/payment_intents", {
+
+      console.log("paymentMethod: ", paymentMethod);
+
+      const response = await fetch("/payment_intents", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: parseInt('1000'),
-          currency: "usd"
+          currency: "usd",
+          ...inputData
         }),
       });
 
-      console.log("response: ", response);
+      const data = await response.json();
+
+      console.log("response: ", data);
+    });
   }
 </script>
-<%= form_with(model: order, local: true) do |form| %>
-  <% if order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%=raw t('errors.template.header', count: @order.errors.count,
-        model: t('activerecord.models.order')) %>.</h2>
-      <p><%= t('errors.template.body') %></p>
 
-      <ul>
-        <% order.errors.full_messages.each do |message| %>
-          <li><%=raw message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<form id='payment-form'>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
 
   <div class="field">
-    <%= form.label :name, t('.name') %>
-    <%= form.text_field :name, size: 40 %>
+    <label><%= t('.name') %></label>
+    <input name="name" required />
   </div>
 
   <div class="field">
-    <%= form.label :address, t('.address_html') %>
-    <%= form.text_area :address, rows: 3, cols: 40 %>
+    <label><%= t('.address') %></label>
+    <textarea name="address" required></textarea>
   </div>
 
   <div class="field">
-    <%= form.label :email, t('.email') %>
-    <%= form.text_field :email, size: 40 %>
+    <label><%= t('.email') %></label>
+    <input name="email" required />
   </div>
 
   <div id="root"></div>
+
   <div class="actions">
-    <%= form.submit t('.submit') %>
+    <button type="submit">
+      <%= t('.submit') %>
+    </button>
   </div>
-<% end %>
+</form>
