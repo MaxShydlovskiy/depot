@@ -1,3 +1,30 @@
+<form id='payment-form'>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+  <input type="hidden" name="submission[stripe_payment_id]" id="payment">
+  <div class="field">
+    <label><%= t('.name') %></label>
+    <input name="name" required />
+  </div>
+
+  <div class="field">
+    <label><%= t('.address') %></label>
+    <textarea name="address" required></textarea>
+  </div>
+
+  <div class="field">
+    <label><%= t('.email') %></label>
+    <input name="email" required />
+  </div>
+
+  <div id="root"></div>
+
+  <div class="actions">
+    <button type="submit">
+      <%= t('.submit') %>
+    </button>
+  </div>
+</form>
+
 <style>
     .StripeElement {
         display: block;
@@ -66,6 +93,7 @@
         body: JSON.stringify({
           amount: parseInt('1000'),
           currency: "usd",
+          authenticity_token: '<%= form_authenticity_token %>'
           ...inputData
         }),
       });
@@ -79,30 +107,3 @@
     });
   }
 </script>
-
-<form id='payment-form'>
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
-
-  <div class="field">
-    <label><%= t('.name') %></label>
-    <input name="name" required />
-  </div>
-
-  <div class="field">
-    <label><%= t('.address') %></label>
-    <textarea name="address" required></textarea>
-  </div>
-
-  <div class="field">
-    <label><%= t('.email') %></label>
-    <input name="email" required />
-  </div>
-
-  <div id="root"></div>
-
-  <div class="actions">
-    <button type="submit">
-      <%= t('.submit') %>
-    </button>
-  </div>
-</form>

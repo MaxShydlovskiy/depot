@@ -25,24 +25,20 @@ class OrdersController < ApplicationController
 
   # POST /orders or /orders.json
   def create
-    @order = Order.new(order_params)
+    @order = Order.new(form_params)
     @order.add_line_items_from_cart(@cart)
 
-
-    respond_to do |format|
-      if @order.save
-        Cart.destroy(session[:cart_id])
-        session[:cart_id] = nil
-        # ChargeOrderJob.perform_later(@order)
-        format.html { redirect_to store_index_url(locale: I18n.locale),
-          notice: I18n.t('.thanks') }
-        format.json { render :show, status: :created, location: @order }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
+    if @order.save
+      Cart.destroy(session[:cart_id])
+      session[:cart_id] = nil
+      # ChargeOrderJob.perform_later(@order)
+        redirect_to store_index_url
+    else
+      flash.now[:error] = "Oops, something went wrong with your submission. Please try again!"
+      render :new
     end
   end
+
 
   # PATCH/PUT /orders/1 or /orders/1.json
   def update
@@ -67,6 +63,15 @@ class OrdersController < ApplicationController
     end
   end
 
+  def form_params
+    params.require(:submission).permit(
+      :name,
+      :address,
+      :email,
+      :stripe_payment_id
+    )
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_order
@@ -74,9 +79,9 @@ class OrdersController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def order_params
-      params.require(:order).permit(:name, :address, :email)
-    end
+    # def order_params
+      # params.require(:order).permit(:name, :address, :email, :stripe_payment_id)
+    # end
 
     def ensure_cart_isnt_empty
       if @cart.line_items.empty?

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :payment_intents
-  post '/payment_intents/:id/confirm', to: 'payment_intents#confirm'
+  resources :webhooks, only: [:create]
   get 'admin' => 'admin#index'
   controller :sessions do
     get 'login' => :new
