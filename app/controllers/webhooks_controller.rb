@@ -27,8 +27,8 @@ class WebhooksController < ApplicationController
       payment_intent = event.data.object # contains a Stripe::PaymentIntent
 
       puts "PaymentIntent succeeded"
-      @submission = Submission.find_by!(stripe_payment_id: payment_intent.id)
-      @submission.update(status: 'paid')
+      @order = Order.find_by!(stripe_payment_id: payment_intent.id)
+      @order.update(status: 'paid')
       puts "Order found: #{@order.title}"
 
       # OrderMailer.receipt(@order).deliver_later

@@ -35,7 +35,7 @@ class OrdersController < ApplicationController
         redirect_to store_index_url
     else
       flash.now[:error] = "Oops, something went wrong with your submission. Please try again!"
-      render :new
+      redirect_to store_index_url
     end
   end
 

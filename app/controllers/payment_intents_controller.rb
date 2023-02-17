@@ -6,7 +6,7 @@ class PaymentIntentsController < ApplicationController
     Stripe.api_key = Rails.application.credentials.stripe_secret_key
 
     payment_intent = Stripe::PaymentIntent.create({
-      amount: '1000',
+      amount: '20000',
       currency: 'usd',
     })
     render json: {

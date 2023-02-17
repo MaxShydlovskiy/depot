@@ -13,5 +13,9 @@ class Cart < ApplicationRecord
 
   def total_price
     line_items.to_a.sum { |item| item.total_price }
-  end    
+  end
+
+  def total_price_in_cents
+    (total_price * 100).to_i
+  end
 end
