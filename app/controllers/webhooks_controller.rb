@@ -5,7 +5,7 @@ class WebhooksController < ApplicationController
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
     event = nil
-    endpoint_secret = Rails.application.credentials.stripe[:webhook_secret]
+    endpoint_secret = 'whsec_42a92269b875523d526827deab58e0ad5de19ea4b5d3933553d11dd092c556ab'
 
     begin
       event = Stripe::Webhook.construct_event(
@@ -29,7 +29,7 @@ class WebhooksController < ApplicationController
       puts "PaymentIntent succeeded"
       @order = Order.find_by!(stripe_payment_id: payment_intent.id)
       @order.update(status: 'paid')
-      puts "Order found: #{@order.title}"
+      puts "Order found: #{@order.name}"
 
       # OrderMailer.receipt(@order).deliver_later
       # OrderMailer.neworder(@order).deliver_later
