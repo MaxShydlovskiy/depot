@@ -13,30 +13,28 @@ class WebhooksController < ApplicationController
       )
     rescue JSON::ParserError => e
       # Invalid payload
-      render json: { message: 'invalid json' }, status: 400
+      status 400
       return
     rescue Stripe::SignatureVerificationError => e
       # Invalid signature
-      render json: { message: 'signature verification failed' }, status: 400
+      status 400
       return
     end
 
     # Handle the event
     case event.type
     when 'payment_intent.succeeded'
-      payment_intent = event.data.object # contains a Stripe::PaymentIntent
-
-      puts "PaymentIntent succeeded"
+      puts "PaymentIntent suceeded"
       @order = Order.find_by!(stripe_payment_id: payment_intent.id)
-      @order.update(status: 'paid')
-      puts "Order found: #{@order.name}"
-
-      # OrderMailer.receipt(@order).deliver_later
-      # OrderMailer.neworder(@order).deliver_later
+      puts "Order found #{order.name}"
+    when 'payment_method.attached'
+      payment_method = event.data.object # contains a Stripe::PaymentMethod
+      puts 'PaymentMethod was attached to a Order!'
+    # ... handle other event types
     else
       puts "Unhandled event type: #{event.type}"
     end
 
-    render json: { message: 'success' }
+    status 200
   end
 end
