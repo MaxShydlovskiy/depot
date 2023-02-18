@@ -4,8 +4,6 @@ class CreateOrders < ActiveRecord::Migration[6.0]
       t.string :name
       t.text :address
       t.string :email
-      t.string :stripe_payment_id
-      t.string :status
 
       t.timestamps
     end

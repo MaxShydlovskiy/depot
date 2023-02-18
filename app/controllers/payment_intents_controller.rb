@@ -8,10 +8,18 @@ class PaymentIntentsController < ApplicationController
     payment_intent = Stripe::PaymentIntent.create({
       amount: '20000',
       currency: 'usd',
+      payment_method_types: [:card],
     })
     render json: {
       id: payment_intent.id,
-      client_secret: payment_intent.client_secret
     }
+  end
+
+  def confirm
+    confirm_pi = Stripe::PaymentIntent.confirm(
+
+      {payment_method: 'pm_card_visa'},
+    )
+    render json: confirm_pi
   end
 end

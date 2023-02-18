@@ -63,25 +63,16 @@ class OrdersController < ApplicationController
     end
   end
 
-  def form_params
-    params.require(:submission).permit(
-      :name,
-      :address,
-      :email,
-      :stripe_payment_id
-    )
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_order
       @order = Order.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
-    # def order_params
-      # params.require(:order).permit(:name, :address, :email, :stripe_payment_id)
-    # end
+    Only allow a list of trusted parameters through.
+    def order_params
+      params.require(:order).permit(:name, :address, :email)
+    end
 
     def ensure_cart_isnt_empty
       if @cart.line_items.empty?
