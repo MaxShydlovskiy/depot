@@ -6,20 +6,13 @@ class PaymentIntentsController < ApplicationController
     Stripe.api_key = Rails.application.credentials.stripe_secret_key
 
     payment_intent = Stripe::PaymentIntent.create({
-      amount: '20000',
+      amount: '10000',
       currency: 'usd',
       payment_method_types: [:card],
+      payment_method: 'pm_card_visa' || 'pm_card_',
+      confirmation_method: 'manual',
+      confirm: true,
     })
-    render json: {
-      id: payment_intent.id,
-    }
-  end
-
-  def confirm
-    confirm_pi = Stripe::PaymentIntent.confirm(
-
-      {payment_method: 'pm_card_visa'},
-    )
-    render json: confirm_pi
+    render json: payment_intent
   end
 end
