@@ -52,6 +52,7 @@
 
       const formData = new FormData(form);
       const inputData = Object.fromEntries(formData);
+      const amount =  <%= @cart.total_price_in_cents %>;
 
       const paymentMethod = await stripe.createPaymentMethod({
         type: 'card',
@@ -59,13 +60,15 @@
       });
 
       console.log("paymentMethod: ", paymentMethod);
+      const paymentMethodId = paymentMethod.id;
 
       const response = await fetch("/payment_intents", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: parseInt('1000'),
+          amount: amount,
           currency: "usd",
+          payment_method_id: paymentMethodId,
           ...inputData
         }),
       });
