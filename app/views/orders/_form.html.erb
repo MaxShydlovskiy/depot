@@ -74,7 +74,7 @@
 
       console.log("response: ", data);
 
-      const paymentIntentId = response.id;
+      const paymentIntentId = data.id;
 
       const response1 = await fetch("/confirm", {
         method: "POST",

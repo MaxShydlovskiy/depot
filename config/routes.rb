@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :payment_intents, only: [ :create, :confirm ]
-  post '/payment_intents/confirm', to: 'payment_intents#confirm'
+  post '/confirm', to: 'payment_intents#confirm'
   get 'admin' => 'admin#index'
   controller :sessions do
     get 'login' => :new

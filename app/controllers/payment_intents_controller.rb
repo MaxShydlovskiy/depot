@@ -1,7 +1,7 @@
 require 'stripe'
 
 class PaymentIntentsController < ApplicationController
-  skip_before_action :authorize, only: [:create]
+  skip_before_action :authorize, only: [:create, :confirm]
   def create
     Stripe.api_key = Rails.application.credentials.stripe_secret_key
 
@@ -10,10 +10,11 @@ class PaymentIntentsController < ApplicationController
       currency: 'usd',
       payment_method_types: [:card],
     })
-    render json: payment_intent
+    render json: @payment_intent
   end
 
   def confirm
+    Stripe.api_key = Rails.application.credentials.stripe_secret_key
     payment_confirm = Stripe::PaymentIntent.confirm
 
     render json: payment_confirm
