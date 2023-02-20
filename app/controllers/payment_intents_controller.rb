@@ -9,10 +9,13 @@ class PaymentIntentsController < ApplicationController
       amount: '10000',
       currency: 'usd',
       payment_method_types: [:card],
-      payment_method: 'pm_card_visa' || 'pm_card_',
-      confirmation_method: 'manual',
-      confirm: true,
     })
     render json: payment_intent
+  end
+
+  def confirm
+    payment_confirm = Stripe::PaymentIntent.confirm
+
+    render json: payment_confirm
   end
 end
