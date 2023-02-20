@@ -76,7 +76,7 @@
 
       const paymentIntentId = response.id;
 
-      const response1 = await fetch("/payment_intents/confirm", {
+      const response1 = await fetch("/confirm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
