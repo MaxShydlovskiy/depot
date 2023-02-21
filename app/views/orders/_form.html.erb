@@ -54,13 +54,13 @@
       const inputData = Object.fromEntries(formData);
       const amount =  <%= @cart.total_price_in_cents %>;
 
-      const paymentMethod = await stripe.createPaymentMethod({
+     const paymentMethodResponse = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
       });
 
-      console.log("paymentMethod: ", paymentMethod);
-      const paymentMethodId = paymentMethod.id;
+      console.log("paymentMethod: ", paymentMethodResponse);
+      const paymentMethodId = paymentMethodResponse.paymentMethod.id;
 
       const response = await fetch("/payment_intents", {
         method: "POST",
