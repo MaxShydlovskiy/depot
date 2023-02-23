@@ -32,7 +32,7 @@ class OrdersController < ApplicationController
       Cart.destroy(session[:cart_id])
       session[:cart_id] = nil
       # ChargeOrderJob.perform_later(@order)
-        redirect_to store_index_url
+      redirect_to store_index_url
     else
       flash.now[:error] = "Oops, something went wrong with your submission. Please try again!"
       render :new
