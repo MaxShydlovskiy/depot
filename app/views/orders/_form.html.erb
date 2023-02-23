@@ -58,13 +58,15 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          order_id: orderId,
           ...inputData
         }),
       });
       const orderData = await newOrderResponse.json();
       console.log("newOrderResponse: ", orderData);
 
-      console.log("response: ", data);
+      console.log("response: ", data.order_id);
+      const orderId = newOrderResponse.data.order_id
      const paymentMethodResponse = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
