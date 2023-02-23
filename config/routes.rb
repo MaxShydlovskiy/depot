@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :payment_intents, only: [ :create, :confirm ]
   post '/confirm', to: 'payment_intents#confirm'
+  post '/orders/create', to: 'orders#create'
   get 'admin' => 'admin#index'
   controller :sessions do
     get 'login' => :new
@@ -13,13 +14,11 @@ Rails.application.routes.draw do
 
   resources :support_requests, only: [ :index, :update ]
 
-  scope '(:locale)' do
-    resources :users
-    resources :orders
-    resources :line_items
-    resources :carts
-    root 'store#index', as: 'store_index'
-  end
+  resources :users
+  resources :orders
+  resources :line_items
+  resources :carts
+  root 'store#index', as: 'store_index'
   resources :products do
     get :who_bought, on: :member
   end
