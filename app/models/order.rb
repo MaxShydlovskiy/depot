@@ -2,9 +2,14 @@ require 'pago'
 
 class Order < ApplicationRecord
   has_many :line_items, dependent: :destroy
+
   before_create :set_default_status
 
-  enum :status: [:unpayed, :payed], default: :unpayed
+  enum :status: { unpayed: 0, payed: 1 }
+
+  def set_default_status
+    self.status ||= :unpayed
+  end
 
   # has_many :support_requests
   # has_one :support_requests
