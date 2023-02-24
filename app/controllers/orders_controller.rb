@@ -33,7 +33,7 @@ class OrdersController < ApplicationController
       Cart.destroy(session[:cart_id])
       session[:cart_id] = nil
       # ChargeOrderJob.perform_later(@order)
-      render action: "store_index" && return
+      render json: @order && return
     else
       render action: "new"
     end
