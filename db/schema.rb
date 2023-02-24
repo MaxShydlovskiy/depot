@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2023_02_23_155553) do
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "status", null: false
+    t.string "status", default: "unpayed", null: false
   end
 
   create_table "products", force: :cascade do |t|
