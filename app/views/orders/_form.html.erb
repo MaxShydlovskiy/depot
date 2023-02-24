@@ -63,8 +63,8 @@
       const orderData = await newOrderResponse.json();
       console.log("newOrderResponse: ", orderData);
 
-      console.log("response: ", data.order_id);
-      const orderId = newOrderResponse.data.order_id
+      //console.log("response: ", data.order_id);
+      //const orderId = newOrderResponse.data.order_id
      const paymentMethodResponse = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
