@@ -23,7 +23,7 @@ class PaymentIntentsController < ApplicationController
     render json: payment_confirm
 
     if payment_confirm[:status] == 'succeeded'
-      Order.last(params[:order_id]).update(status: 'payed')
+      Order.find(params[:order_id]).update(status: 'payed')
     else
       redirect_to new_order_path
     end
