@@ -29,11 +29,10 @@ class OrdersController < ApplicationController
     @order.add_line_items_from_cart(@cart)
 
     if @order.save
-      render json: @order.errors
       Cart.destroy(session[:cart_id])
       session[:cart_id] = nil
       # ChargeOrderJob.perform_later(@order)
-      render json: @order && return
+      render json: @order
     else
       render action: "new"
     end
