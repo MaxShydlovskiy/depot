@@ -25,17 +25,16 @@ class OrdersController < ApplicationController
 
   # POST /orders or /orders.json
   def create
-    @order = Order.new(form_params)
+    @order = Order.new(order_params)
     @order.add_line_items_from_cart(@cart)
 
     if @order.save
       Cart.destroy(session[:cart_id])
       session[:cart_id] = nil
       # ChargeOrderJob.perform_later(@order)
-        redirect_to store_index_url
+      render json: @order
     else
-      flash.now[:error] = "Oops, something went wrong with your submission. Please try again!"
-      render :new
+      render action: "new"
     end
   end
 

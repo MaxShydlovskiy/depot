@@ -16,7 +16,15 @@ class PaymentIntentsController < ApplicationController
 
   def confirm
     Stripe.api_key = Rails.application.credentials.stripe_secret_key
-    payment_confirm = Stripe::PaymentIntent.confirm(params[:payment_intent_id])
+    payment_confirm = Stripe::PaymentIntent.confirm(
+      params[:payment_intent_id]
+    )
+
+    render json: payment_confirm
+
+    if payment_confirm[:status] == 'succeeded'
+      Order.find(params[:order_id]).update(status: 'payed')
+    end
 
     render json: payment_confirm
   end

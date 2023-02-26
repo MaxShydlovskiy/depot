@@ -53,7 +53,18 @@
       const formData = new FormData(form);
       const inputData = Object.fromEntries(formData);
       const amount =  <%= @cart.total_price_in_cents %>;
+      const newOrderResponse = await fetch("/orders/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...inputData
+        }),
+      });
+      const orderData = await newOrderResponse.json();
+      console.log("newOrderResponse: ", orderData);
 
+      //console.log("response: ", data.order_id);
+      const orderId = orderData.id
      const paymentMethodResponse = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
@@ -83,7 +94,8 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-         payment_intent_id: paymentIntentId
+         payment_intent_id: paymentIntentId,
+         order_id: orderId,
         })
       });
     });
