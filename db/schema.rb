@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_23_155553) do
+ActiveRecord::Schema.define(version: 2023_02_27_103745) do
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
     t.integer "status", default: 0, null: false
@@ -69,6 +69,11 @@ ActiveRecord::Schema.define(version: 2023_02_23_155553) do
     t.index ["product_id"], name: "index_line_items_on_product_id"
   end
 
+  create_table "order_transactions", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "orders", force: :cascade do |t|
     t.string "name"
     t.text "address"
@@ -95,6 +100,12 @@ ActiveRecord::Schema.define(version: 2023_02_23_155553) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["order_id"], name: "index_support_requests_on_order_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.decimal "amount", precision: 15, scale: 2
+    t.string "currency"
+    t.string "status", default: "charge", null: false
   end
 
   create_table "users", force: :cascade do |t|
