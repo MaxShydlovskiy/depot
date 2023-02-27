@@ -2,6 +2,7 @@ require 'pago'
 
 class Order < ApplicationRecord
   has_many :line_items, dependent: :destroy
+  belongs_to :transaction
 
   # enum status:  [:unpayed, :payed]
 

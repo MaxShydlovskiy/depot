@@ -27,5 +27,7 @@ class PaymentIntentsController < ApplicationController
     end
 
     render json: payment_confirm
+
+    Transaction.update(details: charges["data"].first)
   end
 end

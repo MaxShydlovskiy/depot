@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 2023_02_27_103745) do
     t.decimal "amount", precision: 15, scale: 2
     t.string "currency"
     t.string "status", default: "charge", null: false
+    t.json "details", null: false
   end
 
   create_table "users", force: :cascade do |t|
