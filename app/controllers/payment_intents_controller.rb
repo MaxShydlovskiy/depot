@@ -16,11 +16,19 @@ class PaymentIntentsController < ApplicationController
 
   def confirm
     Stripe.api_key = Rails.application.credentials.stripe_secret_key
+    @order = Order.find(params[:order_id])
+    render json: { error: { message: "Order not found" }, status: 404 }
+
+    OrderTransaction.find_or_create_by(params[:order_id])
+
+
     payment_confirm = Stripe::PaymentIntent.confirm(
       params[:payment_intent_id]
     )
 
     render json: payment_confirm
+
+
 
     if payment_confirm[:status] == 'succeeded'
       Order.find(params[:order_id]).update(status: 'payed')
