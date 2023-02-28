@@ -1,4 +1,4 @@
 class OrderTransaction < ApplicationRecord
   has_one :order
-  has_many :transactions
+  has_one :transaction
 end
