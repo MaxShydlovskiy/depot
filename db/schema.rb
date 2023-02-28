@@ -70,6 +70,8 @@ ActiveRecord::Schema.define(version: 2023_02_27_103745) do
   end
 
   create_table "order_transactions", force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "transaction_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -103,9 +105,10 @@ ActiveRecord::Schema.define(version: 2023_02_27_103745) do
   end
 
   create_table "transactions", force: :cascade do |t|
+    t.string "charge", default: "true"
     t.decimal "amount", precision: 15, scale: 2
     t.string "currency"
-    t.string "status", default: "charge", null: false
+    t.string "status"
     t.json "details", null: false
   end
 

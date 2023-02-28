@@ -28,8 +28,14 @@ class PaymentIntentsController < ApplicationController
 
     # render json: payment_confirm
 
+    transaction = Transaction.create(
+      amount:   payment_confirm[:amount]
+      currency: payment_confirm[:currency]
+      status:   payment_confirm[:status]
+      details:  payment_confirm[:charges][:data].first
+    )
 
-    OrderTransaction.find_or_create_by(params[:order_id])
+    OrderTransaction.find_or_create_by(params[:order_id], transaction_id: transaction.id)
 
 
     if payment_confirm[:status] == 'succeeded'
