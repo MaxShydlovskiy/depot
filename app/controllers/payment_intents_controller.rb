@@ -18,22 +18,19 @@ class PaymentIntentsController < ApplicationController
     Stripe.api_key = Rails.application.credentials.stripe_secret_key
     order = Order.find(params[:order_id])
 
-    # { error: { message: "Order not found" }, status: 404 } if order.blank?
-
     payment_confirm = Stripe::PaymentIntent.confirm(
       params[:payment_intent_id]
     )
-
-    # render json: payment_confirm
+    charge = Stripe::Charge.retrieve(payment_confirm[:latest_charge])
 
     payment_transaction = PaymentTransaction.create(
       amount:   payment_confirm[:amount],
       currency: payment_confirm[:currency],
       status:   payment_confirm[:status],
-      details:  payment_confirm[:charges][:data].first
+      details:  charge
     )
 
-    OrderTransaction.find_or_create_by(
+    OrderPaymentTransaction.find_or_create_by(
       order_id:               params[:order_id],
       payment_transaction_id: payment_transaction.id
     )
@@ -46,6 +43,5 @@ class PaymentIntentsController < ApplicationController
 
     render json: payment_confirm
 
-    # Transaction.update(details: charges["data"].first)
   end
 end

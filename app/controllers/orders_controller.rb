@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
     if @order.save
       Cart.destroy(session[:cart_id])
       session[:cart_id] = nil
-      # ChargeOrderJob.perform_later(@order)
+
       render json: @order
     else
       render action: "new"
