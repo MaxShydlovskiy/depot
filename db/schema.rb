@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_23_155553) do
+ActiveRecord::Schema.define(version: 2023_02_28_124920) do
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
     t.integer "status", default: 0, null: false
@@ -69,6 +69,13 @@ ActiveRecord::Schema.define(version: 2023_02_23_155553) do
     t.index ["product_id"], name: "index_line_items_on_product_id"
   end
 
+  create_table "order_payment_transactions", force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "payment_transaction_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "orders", force: :cascade do |t|
     t.string "name"
     t.text "address"
@@ -76,6 +83,16 @@ ActiveRecord::Schema.define(version: 2023_02_23_155553) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status", default: "unpayed", null: false
+  end
+
+  create_table "payment_transactions", force: :cascade do |t|
+    t.string "charge", default: "charge"
+    t.decimal "amount", precision: 15, scale: 2
+    t.string "currency"
+    t.string "status"
+    t.json "details", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "products", force: :cascade do |t|
